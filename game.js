@@ -63,41 +63,41 @@ class Game {
 		// [...this.gameObjects, ...this.bricks].forEach((object) => object.draw(ctx));
 		[...this.gameObjects].forEach((object) => object.draw(ctx));
 
-		if (this.gamestate === GAMESTATE.PAUSED) {
-			ctx.rect(0, 0, this.gameWidth, this.gameHeight);
-			ctx.fillStyle = "rgba(0,0,0,0.5)";
-			ctx.fill();
+		// if (this.gamestate === GAMESTATE.PAUSED) {
+		// 	ctx.rect(0, 0, this.gameWidth, this.gameHeight);
+		// 	ctx.fillStyle = "rgba(0,0,0,0.5)";
+		// 	ctx.fill();
 
-			ctx.font = "30px Arial";
-			ctx.fillStyle = "white";
-			ctx.textAlign = "center";
-			ctx.fillText("Paused", this.gameWidth / 2, this.gameHeight / 2);
-		}
+		// 	ctx.font = "30px Arial";
+		// 	ctx.fillStyle = "white";
+		// 	ctx.textAlign = "center";
+		// 	ctx.fillText("Paused", this.gameWidth / 2, this.gameHeight / 2);
+		// }
 
-		if (this.gamestate === GAMESTATE.MENU) {
-			ctx.rect(0, 0, this.gameWidth, this.gameHeight);
-			ctx.fillStyle = "rgba(0,0,0,1)";
-			ctx.fill();
+		// if (this.gamestate === GAMESTATE.MENU) {
+		// 	ctx.rect(0, 0, this.gameWidth, this.gameHeight);
+		// 	ctx.fillStyle = "rgba(0,0,0,1)";
+		// 	ctx.fill();
 
-			ctx.font = "30px Arial";
-			ctx.fillStyle = "white";
-			ctx.textAlign = "center";
-			ctx.fillText(
-				"Press SPACEBAR To Start",
-				this.gameWidth / 2,
-				this.gameHeight / 2
-			);
-		}
-		if (this.gamestate === GAMESTATE.GAMEOVER) {
-			ctx.rect(0, 0, this.gameWidth, this.gameHeight);
-			ctx.fillStyle = "rgba(0,0,0,1)";
-			ctx.fill();
+		// 	ctx.font = "30px Arial";
+		// 	ctx.fillStyle = "white";
+		// 	ctx.textAlign = "center";
+		// 	ctx.fillText(
+		// 		"Press SPACEBAR To Start",
+		// 		this.gameWidth / 2,
+		// 		this.gameHeight / 2
+		// 	);
+		// }
+		// if (this.gamestate === GAMESTATE.GAMEOVER) {
+		// 	ctx.rect(0, 0, this.gameWidth, this.gameHeight);
+		// 	ctx.fillStyle = "rgba(0,0,0,1)";
+		// 	ctx.fill();
 
-			ctx.font = "30px Arial";
-			ctx.fillStyle = "white";
-			ctx.textAlign = "center";
-			ctx.fillText("GAME OVER", this.gameWidth / 2, this.gameHeight / 2);
-		}
+		// 	ctx.font = "30px Arial";
+		// 	ctx.fillStyle = "white";
+		// 	ctx.textAlign = "center";
+		// 	ctx.fillText("GAME OVER", this.gameWidth / 2, this.gameHeight / 2);
+		// }
 	}
 
 	togglePause() {

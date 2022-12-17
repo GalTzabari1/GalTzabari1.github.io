@@ -22,3 +22,4 @@ function gameLoop(timestamp) {
 }
 
 requestAnimationFrame(gameLoop);
+game.start();
