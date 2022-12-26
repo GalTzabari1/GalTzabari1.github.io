@@ -18,3 +18,12 @@ function detectCollision(ball, gameObject) {
 		return false;
 	}
 }
+
+const isOutSideLeftOrRightBorder = (position, size, gameWidth) => {
+	// wall on left or right
+	if (position.x + size > gameWidth || position.x < 0) {
+		return true;
+		// this.speed.x = -this.speed.x;
+	}
+	return false;
+};

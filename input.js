@@ -19,61 +19,72 @@ class InputHandler {
 					break;
 			}
 		});
-
-		// document.addEventListener("keyup", (event) => {
-		// 	switch (event.keyCode) {
-		// 		case 37:
-		// 			if (paddle.speed < 0) paddle.stop();
-		// 			break;
-
-		// 		case 39:
-		// 			if (paddle.speed > 0) paddle.stop();
-		// 			break;
-		// 	}
-		// });
 	}
 }
 
-const getSpeed = (prevPosition, position) => {
+const getDraggingSpeed = (prevPosition, position) => {
 	const acceleration = 2;
 	const xSpeed = (position.x - prevPosition.x) * acceleration;
 	const ySpeed = (position.y - prevPosition.y) * acceleration;
 	return { x: xSpeed, y: ySpeed };
 };
 
+const getRopeStretchedSpeed = (ballPosition, ropePosition) => {
+	const acceleration = 2;
+	const ballDifference = ballPosition.y - ropePosition.y;
+	const ySpeed = ballDifference * acceleration;
+	return { x: 0, y: -ySpeed };
+};
+
 class DragHandler {
-	constructor(ball, canvasContext) {
-		this.intervalId = null;
+	constructor(ball, rope, canvasContext) {
 		canvasContext.onmousedown = function (e) {
-			clearInterval(this.intervalId);
+			clearInterval(ball.movementIntervalId);
 			var mouseX = e.pageX - 8;
 			var mouseY = e.pageY - 8;
 
+			// console.log({ mouseX, mouseY });
+			// console.log({
+			// 	ballSize: ball.size,
+			// 	posX: ball.position.x,
+			// 	posY: ball.position.y,
+			// });
+			// console.log({
+			// 	condition1: `mouseX >= ball.position.x - ball.size / 2 = ${
+			// 		mouseX >= ball.position.x - ball.size / 2
+			// 	}`,
+			// });
+			// console.log({
+			// 	condition2: `mouseX <= ball.position.x + ball.size / 2 = ${
+			// 		mouseX <= ball.position.x + ball.size / 2
+			// 	}`,
+			// });
+			// console.log({
+			// 	condition3: `mouseY >= ball.position.y - ball.size / 2 = ${
+			// 		mouseY >= ball.position.y - ball.size / 2
+			// 	}`,
+			// });
+			// console.log({
+			// 	condition4: `mouseY >= ball.position.y + ball.size / 2 = ${
+			// 		mouseY >= ball.position.y + ball.size / 2
+			// 	}`,
+			// });
+
 			if (
-				mouseX >= ball.position.x - ball.size / 2 &&
-				mouseX <= ball.position.x + ball.size / 2 &&
-				mouseY >= ball.position.y - ball.size / 2 &&
-				mouseY <= ball.position.y + ball.size / 2
+				mouseX >= ball.position.x &&
+				mouseX <= ball.position.x + ball.size &&
+				mouseY >= ball.position.y &&
+				mouseY <= ball.position.y + ball.size
 			) {
 				ball.isDragging = true;
 			}
 		};
 		canvasContext.onmouseup = (event) => {
 			if (ball.isDragging) {
-				console.log({
-					prevPosition: ball.prevPosition,
-					position: ball.position,
-				});
-				ball.speed = getSpeed(ball.prevPosition, ball.position);
-
-				this.intervalId = setInterval(() => {
-					ball.speed.x *= 0.9;
-					ball.speed.y *= 0.9;
-					if (Math.abs(ball.speed.x) < 0.1 && Math.abs(ball.speed.y) < 0.1) {
-						clearInterval(this.intervalId);
-						ball.speed = { x: 0, y: 0 };
-					}
-				}, 100);
+				const speed = rope.isStretching
+					? getRopeStretchedSpeed(ball.position, rope.position)
+					: getDraggingSpeed(ball.prevPosition, ball.position);
+				ball.move(speed);
 			}
 			ball.isDragging = false;
 		};
