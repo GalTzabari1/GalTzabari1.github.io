@@ -1,11 +1,11 @@
 class Rope {
-	constructor(game, ball) {
+	constructor(game) {
 		this.gameWidth = game.gameWidth;
 		this.marginBottom = 50;
 		this.width = this.gameWidth;
 		this.height = 10;
-		this.ball = ball;
-		this.middleCurveX = this.ball.position.x;
+		this.middleCurveX = 0;
+		this.isStretching = false;
 		this.position = {
 			x: game.gameWidth / 2 - this.width / 2,
 			y: game.gameHeight - this.height - this.marginBottom,
@@ -31,13 +31,5 @@ class Rope {
 		ctx.stroke();
 	}
 
-	update(deltaTime) {
-		const ballDifference = this.ball.position.y - this.position.y;
-		if (this.ball.isDragging && ballDifference > 0) {
-			this.middleCurveX = this.ball.position.x;
-			this.isStretching = true;
-		} else {
-			this.isStretching = false;
-		}
-	}
+	update(deltaTime) {}
 }

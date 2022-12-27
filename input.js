@@ -2,14 +2,6 @@ class InputHandler {
 	constructor(paddle, game) {
 		document.addEventListener("keydown", (event) => {
 			switch (event.keyCode) {
-				// case 37:
-				// 	paddle.moveLeft();
-				// 	break;
-
-				// case 39:
-				// 	paddle.moveRight();
-				// 	break;
-
 				case 27:
 					game.togglePause();
 					break;
@@ -37,9 +29,10 @@ const getRopeStretchedSpeed = (ballPosition, ropePosition) => {
 };
 
 class DragHandler {
-	constructor(ball, rope, canvasContext) {
-		canvasContext.onmousedown = function (e) {
-			clearInterval(ball.movementIntervalId);
+	constructor(balls, rope, canvasContext) {
+		this.ball = null;
+		canvasContext.onmousedown = (e) => {
+			if (this.ball) clearInterval(this.ball.movementIntervalId);
 			var mouseX = e.pageX - 8;
 			var mouseY = e.pageY - 8;
 
@@ -70,38 +63,48 @@ class DragHandler {
 			// 	}`,
 			// });
 
-			if (
-				mouseX >= ball.position.x &&
-				mouseX <= ball.position.x + ball.size &&
-				mouseY >= ball.position.y &&
-				mouseY <= ball.position.y + ball.size
-			) {
-				ball.isDragging = true;
+			for (let i = 0; i < balls.length; i++) {
+				const ball = balls[i];
+				if (
+					mouseX >= ball.position.x &&
+					mouseX <= ball.position.x + ball.size &&
+					mouseY >= ball.position.y &&
+					mouseY <= ball.position.y + ball.size
+				) {
+					this.ball = ball;
+					this.ball.isDragging = true;
+					break;
+				}
 			}
 		};
 		canvasContext.onmouseup = (event) => {
-			if (ball.isDragging) {
+			if (!this.ball) return;
+			if (this.ball.isDragging) {
 				const speed = rope.isStretching
-					? getRopeStretchedSpeed(ball.position, rope.position)
-					: getDraggingSpeed(ball.prevPosition, ball.position);
-				ball.move(speed);
+					? getRopeStretchedSpeed(this.ball.position, rope.position)
+					: getDraggingSpeed(this.ball.prevPosition, this.ball.position);
+				this.ball.move(speed);
 			}
-			ball.isDragging = false;
+			this.ball.isDragging = false;
+			rope.isStretching = false;
 		};
 		canvasContext.onmouseover = (event) => {
-			ball.isDragging = false;
+			if (!this.ball) return;
+			this.ball.isDragging = false;
 		};
 
 		canvasContext.onmousemove = (e) => {
-			if (ball.isDragging) {
-				ball.prevPosition = { ...ball.position };
-				ball.position.x = e.pageX - 8;
-				ball.position.y = e.pageY - 8;
+			if (!this.ball) return;
+			if (this.ball.isDragging) {
+				this.ball.prevPosition = { ...this.ball.position };
+				this.ball.position.x = e.pageX - 8;
+				this.ball.position.y = e.pageY - 8;
 			}
 		};
 
 		canvasContext.onmouseout = (event) => {
-			ball.isDragging = false;
+			if (!this.ball) return;
+			this.ball.isDragging = false;
 		};
 	}
 }

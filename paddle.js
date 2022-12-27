@@ -17,9 +17,5 @@ class Paddle {
 		ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
 	}
 
-	update(deltaTime) {
-		if (detectCollision(this.game.ball, this)) {
-			this.game.ball.show = false;
-		}
-	}
+	update(deltaTime) {}
 }

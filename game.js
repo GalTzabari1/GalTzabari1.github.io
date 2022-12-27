@@ -11,8 +11,9 @@ class Game {
 		this.gameWidth = gameWidth;
 		this.gameHeight = gameHeight;
 		this.gamestate = GAMESTATE.MENU;
-		this.ball = new Ball(this);
-		this.rope = new Rope(this, this.ball);
+		this.gamePolicy = new GamePolicy(this);
+		this.balls = [new Ball(this, 1), new Ball(this, 2)];
+		this.rope = new Rope(this);
 		this.paddle = new Paddle(this);
 		this.gameObjects = [];
 		this.lives = 3;
@@ -27,8 +28,11 @@ class Game {
 		)
 			return;
 
-		this.ball.reset();
-		this.gameObjects = [this.ball, this.rope, this.paddle];
+		this.balls.forEach((ball, index) => {
+			ball.reset({ x: index * 20, y: 0 });
+		});
+
+		this.gameObjects = [...this.balls, this.rope, this.paddle];
 
 		this.gamestate = GAMESTATE.RUNNING;
 	}

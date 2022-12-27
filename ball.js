@@ -1,11 +1,12 @@
 class Ball {
-	constructor(game) {
+	constructor(game, id) {
 		this.image = document.getElementById("img_ball");
 
 		this.gameWidth = game.gameWidth;
 		this.gameHeight = game.gameHeight;
-
+		this.id = id;
 		this.game = game;
+		this.gamePolicy = game.gamePolicy;
 		this.isDragging = false;
 		this.size = 16;
 		this.reset();
@@ -13,11 +14,9 @@ class Ball {
 		this.show = true;
 	}
 
-	reset() {
-		// this.position = { x: 10, y: 400 };
-		this.prevPosition = { x: 0, y: 0 };
-		this.position = { x: 0, y: 0 };
-		// this.speed = { x: 4, y: -2 };
+	reset(initPosition) {
+		this.prevPosition = initPosition;
+		this.position = initPosition;
 		this.speed = { x: 0, y: 0 };
 	}
 
@@ -35,6 +34,9 @@ class Ball {
 	}
 
 	update(deltaTime) {
+		this.gamePolicy.ropeBallCollision(this.game.rope, this);
+		this.gamePolicy.paddleBallCollision(this.game.paddle, this);
+
 		this.position.x += this.speed.x;
 		this.position.y += this.speed.y;
 

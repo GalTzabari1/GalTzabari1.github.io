@@ -6,7 +6,7 @@ const GAME_HEIGHT = 600;
 
 let game = new Game(GAME_WIDTH, GAME_HEIGHT);
 new InputHandler(game.paddle, game);
-new DragHandler(game.ball, game.rope, canvas);
+new DragHandler(game.balls, game.rope, canvas);
 
 let lastTime = 0;
 function gameLoop(timestamp) {
