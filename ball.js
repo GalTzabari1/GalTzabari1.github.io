@@ -8,7 +8,7 @@ class Ball {
 		this.game = game;
 		this.gamePolicy = game.gamePolicy;
 		this.isDragging = false;
-		this.size = 16;
+		this.size = 40;
 		this.reset();
 		this.movementIntervalId = null;
 		this.show = true;
