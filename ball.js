@@ -58,8 +58,6 @@ class Ball {
 			this.position.y + this.size >
 			this.gameHeight - this.game.rope.marginBottom
 		) {
-			// this.game.lives--;
-			// this.reset();
 			this.speed.y = -this.speed.y;
 		}
 

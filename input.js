@@ -31,7 +31,7 @@ const getRopeStretchedSpeed = (ballPosition, ropePosition) => {
 class DragHandler {
 	constructor(balls, rope, canvasContext) {
 		this.ball = null;
-		canvasContext.onmousedown = (e) => {
+		canvasContext.addEventListener("mousedown", (e) => {
 			if (this.ball) clearInterval(this.ball.movementIntervalId);
 			var mouseX = e.pageX - 8;
 			var mouseY = e.pageY - 8;
@@ -76,8 +76,8 @@ class DragHandler {
 					break;
 				}
 			}
-		};
-		canvasContext.onmouseup = (event) => {
+		});
+		canvasContext.addEventListener("mouseup", (event) => {
 			if (!this.ball) return;
 			if (this.ball.isDragging) {
 				const speed = rope.isStretching
@@ -87,24 +87,24 @@ class DragHandler {
 			}
 			this.ball.isDragging = false;
 			rope.isStretching = false;
-		};
-		canvasContext.onmouseover = (event) => {
+		});
+		canvasContext.addEventListener("mouseover", (event) => {
 			if (!this.ball) return;
 			this.ball.isDragging = false;
-		};
+		});
 
-		canvasContext.onmousemove = (e) => {
+		canvasContext.addEventListener("mousemove", (e) => {
 			if (!this.ball) return;
 			if (this.ball.isDragging) {
 				this.ball.prevPosition = { ...this.ball.position };
 				this.ball.position.x = e.pageX - 8;
 				this.ball.position.y = e.pageY - 8;
 			}
-		};
+		});
 
-		canvasContext.onmouseout = (event) => {
+		canvasContext.addEventListener("onmouseout", (event) => {
 			if (!this.ball) return;
 			this.ball.isDragging = false;
-		};
+		});
 	}
 }
